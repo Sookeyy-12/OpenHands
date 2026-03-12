@@ -12,7 +12,7 @@ For a stable evaluation environment with `5` concurrent workers, we provisioned 
 - **Memory (RAM):** 16 GB
 - **Disk:** 1000 GB Standard Persistent Disk
 
-*Note: Ensure that Docker is installed on your VM as it is required by the evaluation harness to run sandboxed environments.*
+*Note: Ensure that Docker is installed on your VM as it is required by the evaluation harness to run sandboxed environments, and Vertex is accessible.*
 
 ## 2. Cloning the Repository & Building
 
@@ -35,7 +35,6 @@ Update your `example.json` file in the `.llm_config` directory:
   "model": "vertex_ai/gemini-2.5-pro",
   "api_key": "YOUR_API_KEY"
 }
-
 ```
 
 ## 4. Setup the Edited Prompts
@@ -118,10 +117,9 @@ Once the evaluation completes, the outputs and cost reports will be generated in
 
 ## 6. Evaluation
 
-After running inference (with either workspace type), evaluate the generated patches using the official SWE-Bench evaluation:
+After running inference, evaluate the generated patches using the official SWE-Bench evaluation:
 
-**Basic evaluation:**
 
 ```bash
-uv run swebench-eval output.jsonl
+uv run swebench-eval eval_outputs/princeton-nlp__SWE-bench_Verified-test/vertex_ai/gemini-2.5-pro_sdk_bde715c_maxiter_100/output.jsonl --no-modal --run-id my-run
 ```
