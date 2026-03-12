@@ -19,17 +19,18 @@ The following token counts were calculated using the `vertex_ai/gemini-2.5-pro` 
 
 - Total Raw Tokens: 6186
 - Total Rendered Tokens: 11547
-- Note: Templates like additional_info.j2 show a significant drop in rendered tokens because they are conditional. This indicates 'Hidden Dead Weight'—logic that only triggers in specific edge cases, adding complexity to the codebase while remaining inactive for most tasks.
-- The Tech Philosophy template is the primary source of context inflation, tripling in size upon rendering. This points to a lack of hierarchy; the model is being fed 'philosophical' overhead that consumes nearly 30% of the total prompt budget.
-- The system utilizes multiple high-token system prompt variants. There is a high risk of 'Instruction Dilution' where the core CodeAct instructions are buried under specialized behavior prompts (Interactive vs. Long Horizon)
+#### Note
+- Templates like `additional_info.j2` show a significant drop in rendered tokens because they are conditional. This indicates 'Hidden Dead Weight' logic that only triggers in specific edge cases, adding complexity to the codebase while remaining inactive for most tasks.
+- The `system_prompt_tech_philosophy.j2` template is the primary source of context inflation, tripling in size upon rendering. This points to a lack of hierarchy; the model is being fed 'philosophical' overhead that consumes nearly 30% of the total prompt budget.
+- The system utilizes multiple high-token system prompt variants. There is a high risk of *Instruction Dilution* where the core CodeAct instructions are buried under specialized behavior prompts.
 
 ### Key Inventory Observations:
 
 1. **Instructional Overhead**: The total rendered system context (summing the active templates) exceeds 10,000 tokens in some configurations. This significantly increases latency and cost per turn.
 
-2. **Conditional Fragmentation**: Several templates (e.g., additional_info.j2) contain substantial logic that rarely renders, indicating the prompt suite has become a "catch-all" for edge cases.
+2. **Conditional Fragmentation**: Several templates (e.g., `additional_info.j2`) contain substantial logic that rarely renders, indicating the prompt suite has become a "catch-all" for edge cases.
 
-3. **The Philosophy Tax**: system_prompt_tech_philosophy.j2 is the single most expensive component when rendered. An audit of this file is required to see if these 3,000 tokens provide a proportional increase in success rate.
+3. **The Philosophy Tax**: `system_prompt_tech_philosophy.j2` is the single most expensive component when rendered. An audit of this file is required to see if these 3,000 tokens provide a proportional increase in success rate.
 
 ## 2. Redundancy Map
 
@@ -48,7 +49,7 @@ The following token counts were calculated using the `vertex_ai/gemini-2.5-pro` 
 
 ## 3. Dead Weight
 
-Prompt templates often accumulate "scar tissue"—instructions added to patch older model failures (like GPT-3.5) that modern models handle natively. Reviewing the templates reveals significant dead weight:
+Prompt templates often accumulate "scar tissue" instructions added to patch older model failures that modern models handle natively. Reviewing the templates reveals significant dead weight:
 
 ### Over-explanation (Basic Coding Principles)
 
