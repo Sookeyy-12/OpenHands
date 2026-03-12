@@ -2,7 +2,7 @@
 
 ## 1. Token Inventory
 
-The following token counts were calculated using the `gemini/gemini-3.1-pro-preview` model via the `litellm.token_counter` library method. Rendered token counts include mock variables to properly account for typical context lengths.
+The following token counts were calculated using the `vertex_ai/gemini-2.5-pro` model via the `litellm.token_counter` library method. Rendered token counts include mock variables to properly account for typical context lengths.
 
 | Template Name | Tokens (Raw) | Tokens (Rendered) |
 | :--- | ---: | ---: |
@@ -17,6 +17,8 @@ The following token counts were calculated using the `gemini/gemini-3.1-pro-prev
 | `system_prompt_tech_philosophy.j2` | 1082 | 3026 |
 | `user_prompt.j2` | 0 | 7 |
 
+- Total Raw Tokens: 6186
+- Total Rendered Tokens: 11547
 - Note: Templates like additional_info.j2 show a significant drop in rendered tokens because they are conditional. This indicates 'Hidden Dead Weight'—logic that only triggers in specific edge cases, adding complexity to the codebase while remaining inactive for most tasks.
 - The Tech Philosophy template is the primary source of context inflation, tripling in size upon rendering. This points to a lack of hierarchy; the model is being fed 'philosophical' overhead that consumes nearly 30% of the total prompt budget.
 - The system utilizes multiple high-token system prompt variants. There is a high risk of 'Instruction Dilution' where the core CodeAct instructions are buried under specialized behavior prompts (Interactive vs. Long Horizon)
